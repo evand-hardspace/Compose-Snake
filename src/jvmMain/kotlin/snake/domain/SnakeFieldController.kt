@@ -1,32 +1,30 @@
 package snake.domain
 
 import common.FieldController
-import snake.domain.models.CellType
-import snake.domain.models.plus
-import snake.domain.models.x
-import snake.domain.models.y
+import snake.domain.models.*
 
-class SnakeFieldController: FieldController() {
+class SnakeFieldController : FieldController() {
 
-    var x = false
+    var coordinate = 0.x + 0.y
     override fun run() {
-        x = !x
-        field.update(coordinate = 0.x + 0.y, if(x) CellType.SNAKE else CellType.EMPTY)
+        field.update(coordinate = coordinate, CellType.SNAKE)
     }
 
-    override fun onRight() {
+    override val tactDuration: Long get() = 100
 
+    override fun onRight() {
+        coordinate = coordinate.copy(x = coordinate.x + 1)
     }
 
     override fun onLeft() {
-
+        coordinate = coordinate.copy(x = coordinate.x - 1)
     }
 
     override fun onUp() {
-
+        coordinate = coordinate.copy(y = coordinate.y - 1)
     }
 
     override fun onDown() {
-
+        coordinate = coordinate.copy(y = coordinate.y + 1)
     }
 }

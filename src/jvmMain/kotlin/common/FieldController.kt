@@ -10,7 +10,7 @@ import snake.domain.models.Side
 
 abstract class FieldController(
     val field: Field = Field.defaultField(),
-    tactDuration: Long = 1_000L,
+    private val defaultDuration: Long = 1_000L,
 ) {
     private val scope = CoroutineScope(Dispatchers.Default)
 
@@ -19,6 +19,8 @@ abstract class FieldController(
             gameCycle(tactDuration)
         }
     }
+
+    protected open val tactDuration: Long get() = defaultDuration
 
     protected abstract fun run()
 
@@ -32,8 +34,8 @@ abstract class FieldController(
 
     private suspend fun gameCycle(tactDuration: Long): Nothing {
         while (true) {
-            run()
             delay(tactDuration)
+            run()
         }
     }
 
