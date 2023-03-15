@@ -7,17 +7,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import snake.domain.SnakeFieldController
 import common.models.Side
+import configs.globalDefaultTactDuration
 
 abstract class FieldController(
     val field: Field = Field.defaultField(),
-    private val defaultDuration: Long = 1_000L,
+    private val defaultDuration: Long = globalDefaultTactDuration,
 ) {
     private val scope = CoroutineScope(Dispatchers.Default)
 
     init {
-        scope.launch {
-            gameCycle(tactDuration)
-        }
+        scope.launch { gameCycle(tactDuration) }
     }
 
     protected open val tactDuration: Long get() = defaultDuration

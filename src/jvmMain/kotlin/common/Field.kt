@@ -20,8 +20,8 @@ class Field private constructor(initMatrix: Matrix) {
 
     val size: Int = initMatrix.size
 
-    fun update(coordinate: Coordinate, newType: CellType): Unit = _matrix.update {
-        it.updatedAt(coordinate.x, coordinate.y) { newType }
+    fun update(intent: Intent): Unit = _matrix.update {
+        it.updatedAt(intent.coordinate.x, intent.coordinate.y) { intent.newCellType }
     }
 
     fun update(intents: List<Intent?>) {
@@ -33,6 +33,8 @@ class Field private constructor(initMatrix: Matrix) {
             }
         _matrix.value = mutableValue
     }
+
+    fun getCellType(coordinate: Coordinate): CellType = _matrix.value[coordinate.y][coordinate.x]
 
     companion object {
         fun defaultField(size: Int = globalFieldSize) = Field(

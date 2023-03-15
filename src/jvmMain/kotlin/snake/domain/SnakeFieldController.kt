@@ -5,11 +5,14 @@ import common.models.*
 
 class SnakeFieldController : FieldController() {
 
+    private val foodGenerator = FoodGenerator(fieldSize = field.size, onGeneratedFood = field::update)
+
     private val snake = Snake(
         head = (field.size / 2).x + (field.size / 2).y + field.size,
-    ) {
-        field.update(intents = it)
-    }
+        field = field,
+        onMove = field::update,
+        onAteFood = foodGenerator::generateFood
+    )
 
     override fun run() {
         snake.move()
@@ -18,18 +21,18 @@ class SnakeFieldController : FieldController() {
     override val tactDuration: Long get() = 100
 
     override fun onRight() {
-        snake.direction = Side.RIGHT
+        snake.headDirection = Side.RIGHT
     }
 
     override fun onLeft() {
-        snake.direction = Side.LEFT
+        snake.headDirection = Side.LEFT
     }
 
     override fun onUp() {
-        snake.direction = Side.UP
+        snake.headDirection = Side.UP
     }
 
     override fun onDown() {
-        snake.direction = Side.DOWN
+        snake.headDirection = Side.DOWN
     }
 }
