@@ -36,14 +36,20 @@ class Field private constructor(initMatrix: Matrix) {
 
     fun getCellType(coordinate: Coordinate): CellType = _matrix.value[coordinate.y][coordinate.x]
 
+    fun clear() {
+        _matrix.update { emptyMatrix(size) }
+    }
+
     companion object {
         fun defaultField(size: Int = globalFieldSize) = Field(
-            initMatrix = buildList {
-                repeat(size) { line(size).run(::add) }
-            }
+            initMatrix = emptyMatrix(size)
         )
 
-        private fun line(size: Int): Line = buildList {
+        private fun emptyMatrix(size: Int): Matrix = buildList {
+            repeat(size) { emptyLine(size).run(::add) }
+        }
+
+        private fun emptyLine(size: Int): Line = buildList {
             repeat(size) { add(CellType.EMPTY) }
         }
     }
