@@ -24,10 +24,9 @@ class FoodGenerator(
         (potentialCoordinate changeTo CellType.SECONDARY).run(field::update)
     }
 
-    private fun generateRandomCoordinate(): Coordinate = (random.nextInt(
+    private fun generateRandomCoordinate(): Coordinate = random.nextInt(
         0 until field.size
-    )
-        .x + random.nextInt(
+    ).x + random.nextInt(
         0 until field.size
-    ).y + field.size)
+    ).y + field.size
 }
