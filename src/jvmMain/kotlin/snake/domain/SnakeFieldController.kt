@@ -18,7 +18,7 @@ class SnakeFieldController : FieldController() {
         snake.move()
     }
 
-    override val tactDuration: Long get() = 100
+    override val tactDuration: Long get() = 300
 
     override fun onRight() {
         snake.headDirection = Side.RIGHT
