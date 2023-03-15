@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import snake.domain.SnakeFieldController
-import snake.domain.models.Side
+import common.models.Side
 
 abstract class FieldController(
     val field: Field = Field.defaultField(),

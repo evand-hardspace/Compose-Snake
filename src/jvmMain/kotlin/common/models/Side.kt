@@ -1,4 +1,4 @@
-package snake.domain.models
+package common.models
 
 enum class Side {
     RIGHT, LEFT, UP, DOWN

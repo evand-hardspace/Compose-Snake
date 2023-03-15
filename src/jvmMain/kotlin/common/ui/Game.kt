@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import common.FieldController
 import configs.GameType
-import snake.domain.models.Side
+import common.models.Side
 
 @Composable
 fun Game(gameType: GameType, modifier: Modifier = Modifier) = Column(

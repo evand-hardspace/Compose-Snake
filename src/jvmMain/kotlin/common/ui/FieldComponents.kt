@@ -7,7 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import snake.domain.models.CellType
+import common.models.CellType
 
 @Composable
 fun FieldComponent(field: List<List<CellType>>, modifier: Modifier = Modifier) = Box(modifier = modifier
@@ -31,8 +31,8 @@ fun FieldComponent(field: List<List<CellType>>, modifier: Modifier = Modifier) =
 fun Cell(type: CellType) = Box(contentAlignment = Alignment.Center) {
     val color = when (type) {
         CellType.EMPTY -> Color.White
-        CellType.SNAKE -> Color.Green
-        CellType.FOOD -> Color.Red
+        CellType.MAIN -> Color.Green
+        CellType.SECONDARY -> Color.Red
     }
     Box(modifier = Modifier
         .size(15.dp)
