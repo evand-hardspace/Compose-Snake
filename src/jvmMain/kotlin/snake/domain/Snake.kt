@@ -14,9 +14,11 @@ class Snake(
         (field.size / 2).x + (field.size / 2).y + field.size
     )
 
-    var headDirection: Side = UP
+    var head = Direction(UP)
+        private set
 
     fun move() {
+        head.actualize()
         val nextCell = getNextCell()
         val nextCellType = field.getCellType(nextCell)
         if (nextCellType == CellType.MAIN) onGameOver()
@@ -25,7 +27,7 @@ class Snake(
         sendIntents(nextCellType == CellType.SECONDARY)
     }
 
-    private fun getNextCell() = when (headDirection) {
+    private fun getNextCell() = when (head.direction) {
         RIGHT -> body.head.rightOrOpposite
         LEFT -> body.head.leftOrOpposite
         UP -> body.head.upOrOpposite

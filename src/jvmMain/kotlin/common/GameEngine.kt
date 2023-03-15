@@ -1,13 +1,12 @@
 package common
 
 import common.models.*
-import configs.GameType
+import configs.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import snake.domain.SnakeGameEngine
-import configs.globalDefaultTactDuration
 
 abstract class GameEngine(
     val field: Field = Field.defaultField(),
@@ -17,7 +16,6 @@ abstract class GameEngine(
     private var intendsToRestart: Boolean = false
 
     private var gameOverAnimCounter = 0
-    private var isGameOver = false
 
     fun start() {
         onCreate()
@@ -82,10 +80,6 @@ abstract class GameEngine(
                 }
             }
         }.flatten()
-
-    private fun onGameOver() {
-
-    }
 
     companion object {
         fun provide(gameType: GameType): GameEngine = when(gameType) {

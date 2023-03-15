@@ -22,21 +22,21 @@ class SnakeGameEngine : GameEngine() {
         snake.move()
     }
 
-    override val tactDuration: Long get() = 300
+    override val tactDuration: Long get() = 100
 
     override fun onRight() {
-        if (snake.headDirection != Side.LEFT) snake.headDirection = Side.RIGHT
+        if (snake.head.direction != Side.LEFT) snake.head.intendDirection = Side.RIGHT
     }
 
     override fun onLeft() {
-        if (snake.headDirection != Side.RIGHT) snake.headDirection = Side.LEFT
+        if (snake.head.direction != Side.RIGHT) snake.head.intendDirection = Side.LEFT
     }
 
     override fun onUp() {
-        if (snake.headDirection != Side.DOWN) snake.headDirection = Side.UP
+        if (snake.head.direction != Side.DOWN) snake.head.intendDirection = Side.UP
     }
 
     override fun onDown() {
-        if (snake.headDirection != Side.UP) snake.headDirection = Side.DOWN
+        if (snake.head.direction != Side.UP) snake.head.intendDirection = Side.DOWN
     }
 }

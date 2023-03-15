@@ -1,37 +1,43 @@
+@file:Suppress("OPT_IN_IS_NOT_ENABLED")
+
 package common.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowState
 import common.GameEngine
-import configs.GameType
 import common.models.Side
+import configs.globalGameType
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Game(gameType: GameType, modifier: Modifier = Modifier) = Column(
-    modifier = modifier,
-    verticalArrangement = Arrangement.Bottom,
-    horizontalAlignment = Alignment.CenterHorizontally
-) {
-    val gameEngine = remember { GameEngine.provide(gameType) }
+fun Game(onCloseRequest: () -> Unit, size: DpSize) {
+    val gameEngine = remember { GameEngine.provide(globalGameType) }
     val matrix by gameEngine.field.matrix.collectAsState()
 
     LaunchedEffect(Unit) {
         gameEngine.start()
     }
 
-    FieldComponent(matrix)
-    Spacer(modifier = Modifier.height(100.dp))
-    ControllerComponent(
-        onUp = { gameEngine.click(Side.UP) },
-        onDown = { gameEngine.click(Side.DOWN) },
-        onLeft = { gameEngine.click(Side.LEFT) },
-        onRight = { gameEngine.click(Side.RIGHT) }
-    )
-    Spacer(modifier = Modifier.height(30.dp))
+    Window(
+        onCloseRequest = onCloseRequest,
+        state = WindowState(size = size),
+        title = globalGameType.gameName,
+        onKeyEvent = {
+            when(it.key) {
+                Key.DirectionDown -> gameEngine.click(Side.DOWN)
+                Key.DirectionUp -> gameEngine.click(Side.UP)
+                Key.DirectionLeft -> gameEngine.click(Side.LEFT)
+                Key.DirectionRight -> gameEngine.click(Side.RIGHT)
+            }
+            true
+        },
+        resizable = false
+    ) {
+        FieldComponent(matrix)
+    }
 }
