@@ -1,9 +1,9 @@
 package snake.domain
 
-import common.GameEngine
+import common.BaseGame
 import common.models.*
 
-class SnakeGameEngine : GameEngine() {
+class SnakeGame : BaseGame() {
 
     private lateinit var foodGenerator: FoodGenerator
 
@@ -18,11 +18,11 @@ class SnakeGameEngine : GameEngine() {
         )
     }
 
-    override fun run() {
+    override fun onRun() {
         snake.move()
     }
 
-    override val tactDuration: Long get() = 100
+    override val tactDuration: Long get() = SNAKE_TACT_DURATION
 
     override fun onRight() {
         if (snake.head.direction != Side.LEFT) snake.head.intendDirection = Side.RIGHT
@@ -38,5 +38,9 @@ class SnakeGameEngine : GameEngine() {
 
     override fun onDown() {
         if (snake.head.direction != Side.UP) snake.head.intendDirection = Side.DOWN
+    }
+
+    private companion object {
+        const val SNAKE_TACT_DURATION = 100L
     }
 }

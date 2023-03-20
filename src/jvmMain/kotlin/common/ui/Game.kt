@@ -9,14 +9,14 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
-import common.GameEngine
+import common.di.GameProvider
 import common.models.Side
 import configs.globalGameType
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Game(onCloseRequest: () -> Unit, size: DpSize) {
-    val gameEngine = remember { GameEngine.provide(globalGameType) }
+    val gameEngine = remember { GameProvider.provide() }
     val matrix by gameEngine.field.matrix.collectAsState()
 
     LaunchedEffect(Unit) {
