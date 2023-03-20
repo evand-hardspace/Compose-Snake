@@ -1,17 +1,17 @@
 package common
 
+import common.models.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import common.models.CellType
-import common.models.Coordinate
-import common.models.Intent
 import configs.globalFieldSize
 import stdext.updatedAt
 
 typealias Line = List<CellType>
 typealias Matrix = List<Line>
+typealias CoordinateLine = List<Coordinate>
+typealias CoordinateMatrix = List<CoordinateLine>
 
 class Field private constructor(initMatrix: Matrix) {
 
@@ -19,6 +19,15 @@ class Field private constructor(initMatrix: Matrix) {
     val matrix: StateFlow<Matrix> = _matrix.asStateFlow()
 
     val size: Int = initMatrix.size
+
+    val coordinateMatrix: CoordinateMatrix
+        get() = matrix.value.let { coordMatrix ->
+            coordMatrix.mapIndexed { y, line ->
+                List(line.size) { x ->
+                    x.x + y.y + coordMatrix.size
+                }
+            }
+        }
 
     fun update(intent: Intent): Unit = _matrix.update {
         it.updatedAt(intent.coordinate.x, intent.coordinate.y) { intent.newCellType }
