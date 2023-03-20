@@ -50,7 +50,7 @@ class Field private constructor(initMatrix: Matrix) {
     }
 
     companion object {
-        fun defaultField(size: Int = globalFieldSize) = Field(
+        fun createField(size: Int = globalFieldSize) = Field(
             initMatrix = emptyMatrix(size)
         )
 

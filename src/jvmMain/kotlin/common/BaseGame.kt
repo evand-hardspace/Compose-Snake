@@ -8,12 +8,15 @@ import kotlinx.coroutines.launch
 import stdext.suspendLoop
 
 abstract class BaseGame(
-    override val field: Field = Field.defaultField(),
+    final override val field: Field = Field.createField(),
     private val defaultDuration: Long = globalDefaultTactDuration,
 ): Game {
 
-    private val scope = CoroutineScope(Dispatchers.Default)
-    private val restartAnimator = RestartAnimator(::onRestart) { field }
+    private val scope = CoroutineScope(Dispatchers.IO)
+    private val restartAnimator = RestartAnimator(field) {
+        field.clear()
+        onCreate()
+    }
 
     protected open val tactDuration: Long get() = defaultDuration
 
@@ -49,10 +52,5 @@ abstract class BaseGame(
 
     private fun run() {
         if (restartAnimator.isRunning) restartAnimator.onRun() else onRun()
-    }
-
-    private fun onRestart() {
-        field.clear()
-        onCreate()
     }
 }
