@@ -5,15 +5,11 @@ import common.models.*
 
 class SnakeGame : BaseGame() {
 
-    private lateinit var foodGenerator: FoodGenerator
-
     private lateinit var snake: Snake
 
     override fun onCreate() {
-        foodGenerator = FoodGenerator(field = field)
         snake = Snake(
             field = field,
-            onAteFood = foodGenerator::generateFood,
             onGameOver = ::restart
         )
     }
@@ -25,19 +21,19 @@ class SnakeGame : BaseGame() {
     override val tactDuration: Long get() = SNAKE_TACT_DURATION
 
     override fun onRight() {
-        if (snake.head.direction != Side.LEFT) snake.head.intendDirection = Side.RIGHT
+        snake.turn(Side.RIGHT)
     }
 
     override fun onLeft() {
-        if (snake.head.direction != Side.RIGHT) snake.head.intendDirection = Side.LEFT
+        snake.turn(Side.LEFT)
     }
 
     override fun onUp() {
-        if (snake.head.direction != Side.DOWN) snake.head.intendDirection = Side.UP
+        snake.turn(Side.UP)
     }
 
     override fun onDown() {
-        if (snake.head.direction != Side.UP) snake.head.intendDirection = Side.DOWN
+        snake.turn(Side.DOWN)
     }
 
     private companion object {

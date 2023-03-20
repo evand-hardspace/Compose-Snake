@@ -6,25 +6,29 @@ import common.models.Side.*
 
 class Snake(
     private val field: Field,
-    private val onAteFood: () -> Unit,
+    private val foodGenerator: FoodGenerator = FoodGenerator(field = field),
     private val onGameOver: () -> Unit,
 ) {
 
+    private var head = Direction(UP)
+    private var isNextCellFood: Boolean = false
     private val body = mutableListOf(
         (field.size / 2).x + (field.size / 2).y + field.size
     )
-
-    var head = Direction(UP)
-        private set
 
     fun move() {
         head.actualize()
         val nextCell = getNextCell()
         val nextCellType = field.getCellType(nextCell)
         if (nextCellType == CellType.MAIN) onGameOver()
-        if (nextCellType == CellType.SECONDARY) onAteFood()
+        isNextCellFood = nextCellType == CellType.SECONDARY
+        if (isNextCellFood) foodGenerator.generateFood()
         body += nextCell
-        sendIntents(nextCellType == CellType.SECONDARY)
+        sendIntents()
+    }
+
+    fun turn(side: Side) {
+        if (head.direction != side.opposite) head.intendDirection = side
     }
 
     private fun getNextCell() = when (head.direction) {
@@ -34,9 +38,9 @@ class Snake(
         DOWN -> body.head.downOrOpposite
     }
 
-    private fun sendIntents(isNextCellIsFood: Boolean) = listOf(
+    private fun sendIntents(): Unit = listOf(
         body.head changeTo CellType.MAIN,
-        if (isNextCellIsFood) null else body.removeTail changeTo CellType.EMPTY
+        if (isNextCellFood) null else body.removeTail changeTo CellType.EMPTY
     ).run(field::update)
 }
 
