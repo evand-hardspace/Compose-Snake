@@ -10,7 +10,7 @@ import stdext.updatedAt
 
 typealias Line = List<CellType>
 typealias Matrix = List<Line>
-typealias CoordinateLine = List<Coordinate>
+typealias CoordinateLine = List<TypedCoordinates>
 typealias CoordinateMatrix = List<CoordinateLine>
 
 class Field private constructor(initMatrix: Matrix) {
@@ -20,11 +20,11 @@ class Field private constructor(initMatrix: Matrix) {
 
     val size: Int = initMatrix.size
 
-    val coordinateMatrix: CoordinateMatrix
+    val typedMatrix: CoordinateMatrix
         get() = matrix.value.let { coordMatrix ->
             coordMatrix.mapIndexed { y, line ->
-                List(line.size) { x ->
-                    x.x + y.y + coordMatrix.size
+                line.mapIndexed { x, element ->
+                    x.x + y.y + coordMatrix.size + element
                 }
             }
         }

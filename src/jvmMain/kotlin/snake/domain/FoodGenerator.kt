@@ -11,11 +11,12 @@ class FoodGenerator(
         generateFood()
     }
 
-    //todo remove generating in random way, this is not efficient
     fun generateFood() {
-        field.coordinateMatrix
+        field.typedMatrix
             .flatten()
+            .filter { it.type == CellType.EMPTY }
             .randomOrNull()
+            ?.coordinate
             ?.changeTo(CellType.SECONDARY)
             ?.run(field::update)
     }
